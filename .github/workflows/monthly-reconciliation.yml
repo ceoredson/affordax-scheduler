@@ -1,0 +1,24 @@
+name: ADMP Monthly Reconciliation
+
+on:
+  schedule:
+    - cron: '17 2 1 * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  reconciliation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Run monthly reconciliation
+        env:
+          MAINTENANCE_URL: ${{ secrets.MAINTENANCE_URL }}
+          MAINTENANCE_TOKEN: ${{ secrets.MAINTENANCE_TOKEN }}
+        run: |
+          test -n "$MAINTENANCE_URL"
+          test -n "$MAINTENANCE_TOKEN"
+          curl --fail-with-body --retry 5 --retry-delay 15 --max-time 300 \
+            -X POST "$MAINTENANCE_URL/internal/maintenance/?job=monthly_reconciliation" \
+            -H "Authorization: Bearer $MAINTENANCE_TOKEN"
