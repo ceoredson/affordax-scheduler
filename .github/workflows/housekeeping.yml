@@ -7,6 +7,10 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: admp-housekeeping
+  cancel-in-progress: false
+
 jobs:
   housekeeping:
     runs-on: ubuntu-latest

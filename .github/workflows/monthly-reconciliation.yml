@@ -7,6 +7,10 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: admp-monthly-reconciliation
+  cancel-in-progress: false
+
 jobs:
   reconciliation:
     runs-on: ubuntu-latest

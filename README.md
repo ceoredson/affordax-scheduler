@@ -18,3 +18,8 @@ unauthorized or overlapping maintenance requests.
 
 GitHub schedule times are UTC. The schedules intentionally avoid minute zero,
 which reduces the chance of competing with the global start-of-hour workload.
+
+Each workflow has its own concurrency group. A manual invocation and scheduled
+invocation of the same workflow cannot run concurrently; an in-flight request
+is never cancelled by a newer run. Backend locking remains necessary because
+other schedulers or callers can invoke maintenance independently.
